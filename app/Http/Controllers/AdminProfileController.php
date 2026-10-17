@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class AdminProfileController extends Controller
@@ -16,6 +18,8 @@ class AdminProfileController extends Controller
 
         return view('admin.profile', [
             'heroImage' => $imagePath ? Storage::disk('public')->url($imagePath) : null,
+            'services' => Service::query()->orderBy('sort_order')->orderBy('id')->get(),
+            'serviceIcons' => Service::ICON_OPTIONS,
         ]);
     }
 
@@ -43,5 +47,42 @@ class AdminProfileController extends Controller
         }
 
         return back()->with('status', 'Hero image updated successfully.');
+    }
+
+    public function storeService(Request $request): RedirectResponse
+    {
+        Service::create($this->validatedService($request) + [
+            'sort_order' => (int) Service::max('sort_order') + 1,
+        ]);
+
+        return back()->with('status', 'Service card added successfully.');
+    }
+
+    public function updateService(Request $request, Service $service): RedirectResponse
+    {
+        $service->update($this->validatedService($request));
+
+        return back()->with('status', 'Service card updated successfully.');
+    }
+
+    public function destroyService(Service $service): RedirectResponse
+    {
+        $service->delete();
+
+        return back()->with('status', 'Service card removed successfully.');
+    }
+
+    /**
+     * @return array{title: string, description: string, icon: string, cta_label: string, cta_url: string}
+     */
+    private function validatedService(Request $request): array
+    {
+        return $request->validate([
+            'title' => ['required', 'string', 'max:120'],
+            'description' => ['required', 'string', 'max:1000'],
+            'icon' => ['required', Rule::in(array_keys(Service::ICON_OPTIONS))],
+            'cta_label' => ['required', 'string', 'max:80'],
+            'cta_url' => ['required', 'string', 'max:2048', 'regex:/^(#[\w-]+|https?:\/\/\S+)$/i'],
+        ]);
     }
 }
