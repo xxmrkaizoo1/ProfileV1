@@ -51,20 +51,84 @@ html {
     transition: transform 100ms linear;
 }
 
+.ambient-orb {
+    animation: ambient-float 9s ease-in-out infinite;
+}
+
+.ambient-orb-delayed {
+    animation-delay: -4.5s;
+}
+
 .scroll-reveal-ready {
     opacity: 0;
-    transform: translateY(24px) scale(0.985);
-    transition: opacity 700ms ease, transform 700ms cubic-bezier(0.2, 0.75, 0.25, 1);
+    filter: blur(5px);
+    transform: translateY(30px) scale(0.98);
+    transition: opacity 750ms ease, transform 750ms cubic-bezier(0.2, 0.75, 0.25, 1), filter 750ms ease;
 }
 
 .scroll-reveal-ready.is-visible {
     opacity: 1;
+    filter: blur(0);
     transform: translateY(0) scale(1);
+}
+
+.motion-card {
+    transition: transform 450ms cubic-bezier(0.2, 0.75, 0.25, 1), border-color 350ms ease, box-shadow 450ms ease;
+}
+
+.motion-button {
+    transition: transform 250ms ease, box-shadow 300ms ease, filter 300ms ease;
+}
+
+.motion-button:hover {
+    box-shadow: 0 12px 32px rgb(37 99 235 / 28%);
+    transform: translateY(-2px);
+}
+
+.welcome-robot {
+    animation: robot-idle 3.5s ease-in-out infinite;
+    transform-origin: center bottom;
 }
 
 [data-section-link].is-active {
     color: rgb(103 232 249);
     text-shadow: 0 0 14px rgb(34 211 238 / 55%);
+}
+
+@media (hover: hover) {
+    .motion-card:hover {
+        box-shadow: 0 22px 60px rgb(37 99 235 / 14%);
+        transform: translateY(-6px);
+    }
+}
+
+.welcome-message-hidden {
+    opacity: 0;
+    transform: translateX(0.5rem) scale(0.96);
+    visibility: hidden;
+    pointer-events: none;
+}
+
+@keyframes robot-idle {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes ambient-float {
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate3d(0, -18px, 0) scale(1.06);
+    }
 }
 
 @keyframes hud-scan {
@@ -93,6 +157,13 @@ html {
 
     .scroll-reveal-ready {
         opacity: 1;
+        filter: none;
+        transform: none;
+    }
+
+    .motion-card:hover,
+    .motion-button:hover {
+        box-shadow: none;
         transform: none;
     }
 }

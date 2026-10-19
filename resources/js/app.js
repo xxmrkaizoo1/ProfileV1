@@ -6,6 +6,7 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 
 let scrollFrame = 0;
 
+// Update the fixed header style and top-of-page scroll progress indicator.
 const updateScrollState = () => {
     const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrollProgress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
@@ -27,6 +28,7 @@ window.addEventListener('scroll', () => {
 
 updateScrollState();
 
+// Reveal content as it enters the viewport, or show it immediately when motion is reduced.
 if (reducedMotion || !('IntersectionObserver' in window)) {
     revealItems.forEach((item) => item.classList.add('is-visible'));
 } else {
@@ -46,6 +48,7 @@ if (reducedMotion || !('IntersectionObserver' in window)) {
     });
 }
 
+// Keep desktop and mobile section links highlighted as their sections enter view.
 if ('IntersectionObserver' in window) {
     const sections = [...sectionLinks]
         .map((link) => document.querySelector(link.getAttribute('href')))
