@@ -13,6 +13,25 @@ html {
     scroll-padding-top: 8rem;
 }
 
+.section-divider::after {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 0;
+    left: 1.5rem;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgb(34 211 238 / 12%) 18%,
+        rgb(59 130 246 / 55%) 50%,
+        rgb(168 85 247 / 20%) 82%,
+        transparent
+    );
+    box-shadow: 0 0 14px rgb(59 130 246 / 18%);
+    content: '';
+    pointer-events: none;
+}
+
 .game-navbar {
     transition: background-color 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
 }

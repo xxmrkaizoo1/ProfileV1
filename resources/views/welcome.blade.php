@@ -120,7 +120,7 @@
 
     <main>
         <!-- Home section: introduction, hero portrait, and primary calls to action. -->
-        <section id="home" class="relative isolate min-h-[650px] overflow-hidden px-6 py-20 text-white sm:py-24">
+        <section id="home" class="section-divider relative isolate min-h-[650px] overflow-hidden px-6 py-20 text-white sm:py-24">
             <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
                 <div class="ambient-orb absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-blue-950/10 blur-3xl"></div>
                 <div class="ambient-orb ambient-orb-delayed absolute right-[8%] top-1/3 h-56 w-56 rounded-full bg-purple-950/10 blur-3xl"></div>
@@ -132,10 +132,10 @@
                 <div data-scroll-reveal class="relative z-20 max-w-xl pb-10 lg:pb-0">
                     <h1 class="text-5xl font-light leading-[1.12] tracking-tight text-gray-200 sm:text-6xl">
                         This is your<br>
-                        designer
+                        programmer
                     </h1>
                     <p class="mt-2 text-5xl font-bold leading-tight tracking-tight text-blue-600 sm:text-6xl">
-                        Esther Howard
+                        FIRAS UMAIR
                     </p>
                     <p class="mt-7 max-w-lg text-sm leading-6 text-gray-500 sm:text-base">
                         Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
@@ -160,7 +160,7 @@
                     <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-[78%] border border-white/[0.035] bg-gradient-to-br from-white/[0.025] via-transparent to-white/[0.015]"></div>
                     <div class="relative z-10 flex h-[90%] w-[78%] items-center justify-center overflow-hidden border border-dashed border-white/15 bg-gradient-to-b from-white/[0.035] to-transparent text-center">
                         @if ($heroImage)
-                            <img src="{{ $heroImage }}" alt="Portfolio portrait" class="absolute inset-0 h-full w-full object-cover object-top">
+                            <img src="{{ $heroImage }}" alt="Portfolio portrait" class="absolute inset-0 h-full w-full object-cover object-top grayscale">
                             <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"></div>
                         @else
                             <div class="flex flex-col items-center">
@@ -194,7 +194,7 @@
         </section>
 
         <!-- About section: explains the design process. -->
-        <section id="about" class="relative overflow-hidden px-6 py-20 pb-32 text-white sm:py-24 lg:pb-48">
+        <section id="about" class="section-divider relative overflow-hidden px-6 py-20 pb-32 text-white sm:py-24 lg:pb-48">
             <div aria-hidden="true" class="pointer-events-none absolute inset-0">
                 <div class="absolute inset-x-0 top-1/2 h-px bg-white/[0.025]"></div>
                 <div class="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.02),transparent_70%)]"></div>
@@ -243,7 +243,7 @@
         </section>
 
         <!-- Services section: displays admin-managed service cards. -->
-        <section id="services" class="relative overflow-hidden px-6 pb-24 pt-20 text-white sm:pt-24">
+        <section id="services" class="section-divider relative overflow-hidden px-6 pb-24 pt-20 text-white sm:pt-24">
             <div aria-hidden="true" class="pointer-events-none absolute inset-0">
                 <div class="absolute inset-x-0 top-[42%] h-px bg-white/[0.035]"></div>
                 <div class="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.025),transparent_70%)]"></div>
@@ -304,7 +304,7 @@
         </section>
 
         <!-- Projects section: displays admin-managed project previews. -->
-        <section id="projects" class="relative isolate overflow-hidden px-6 py-24 text-white sm:py-28"
+        <section id="projects" class="section-divider relative isolate overflow-hidden px-6 py-24 text-white sm:py-28"
             @if ($projectsBackgroundImage)
                 style="background-image: linear-gradient(180deg, rgba(7, 7, 10, .90), rgba(7, 7, 10, .82)), url('{{ $projectsBackgroundImage }}'); background-position: center; background-size: cover;"
             @else
@@ -373,7 +373,7 @@
         </section>
 
         <!-- Portfolio section: displays admin-managed work, descriptions, and tools. -->
-        <section id="portfolio" class="relative isolate overflow-hidden px-6 py-24 text-white sm:py-28">
+        <section id="portfolio" class="section-divider relative isolate overflow-hidden px-6 py-24 text-white sm:py-28">
             <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(37,99,235,.12),transparent_55%),linear-gradient(180deg,#09090b,#0d0d14_50%,#09090b)]"></div>
             <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-1/2 -z-10 h-px bg-white/[0.04]"></div>
 
@@ -437,7 +437,7 @@
     </main>
 
     <!-- Contact section: provides direct email contact and a project inquiry link. -->
-    <section id="contact" aria-labelledby="contact-heading" class="relative isolate overflow-hidden px-6 py-20 text-white sm:py-24">
+    <section id="contact" aria-labelledby="contact-heading" class="section-divider relative isolate overflow-hidden px-6 py-20 text-white sm:py-24">
         <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_45%,rgba(37,99,235,.12),transparent_58%)]"></div>
         <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent"></div>
 
