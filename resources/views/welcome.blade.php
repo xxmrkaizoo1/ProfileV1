@@ -185,7 +185,7 @@
                             <path id="badge-circle" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"></path>
                         </defs>
                         <text fill="currentColor" font-size="9" letter-spacing="3">
-                            <textPath href="#badge-circle">100% SKILLED IN DESIGN • </textPath>
+                            <textPath href="#badge-circle">100% SKILLED IN PROGRAMMING • </textPath>
                         </text>
                     </svg>
                     <span class="text-3xl">✦</span>
