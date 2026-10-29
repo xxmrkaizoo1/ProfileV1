@@ -1,3 +1,21 @@
+@php
+    $profile = config('portfolio');
+    $navigation = ['about' => 'About', 'stack' => 'Stack', 'services' => 'Services', 'projects' => 'Projects', 'portfolio' => 'Portfolio', 'contact' => 'Contact'];
+    $terminalSessions = [
+        ['command' => 'whoami', 'output' => [strtolower($profile['name']).' — computer technology student']],
+        ['command' => 'cat stack.txt', 'output' => ['laravel  php  javascript  node.js  mysql']],
+        ['command' => 'ls ~/projects', 'output' => ['travel-websites  counselling-system', 'ai-chat-student  smartplant-iot']],
+        ['command' => 'echo $STATUS', 'output' => [$profile['open_to_work'] ? 'open to work ✓' : 'busy building']],
+    ];
+    $processSteps = [
+        ['title' => 'Empathize', 'description' => 'Listen closely to understand the real problem and the people behind it.'],
+        ['title' => 'Define', 'description' => 'Turn insights into a clear, focused problem statement.'],
+        ['title' => 'Ideate', 'description' => 'Explore several directions before committing to the strongest one.'],
+        ['title' => 'Prototype', 'description' => 'Build fast, working versions to try ideas early.'],
+        ['title' => 'Qualitative test', 'description' => 'Gather honest feedback through real conversations with users.'],
+        ['title' => 'Quantitative test', 'description' => 'Measure results with data and refine what works.'],
+    ];
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,113 +23,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <meta name="description" content="{{ $profile['name'] }}: {{ $profile['role'] }}. {{ $profile['bio'] }}">
+    <title>{{ $profile['name'] }} · Developer Portfolio</title>
+    @include('partials.theme-script')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-[#09090b] pt-[78px] lg:pt-[117px]">
-    <!-- Header section: site navigation, contact shortcuts, and admin access. -->
-    <header id="site-header" class="game-navbar fixed inset-x-0 top-0 z-50 isolate overflow-hidden border-t-[5px] border-b border-[#353535] border-b-white/10 bg-[#08080dcc] text-white">
-        <div aria-hidden="true" class="game-navbar-scanline pointer-events-none absolute inset-0 z-0"></div>
-        <div aria-hidden="true" class="game-scroll-progress fixed left-0 top-0 z-[60] h-[2px] w-full origin-left scale-x-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500"></div>
-        <div aria-hidden="true" class="pointer-events-none absolute inset-0 z-0" style="background: radial-gradient(ellipse 18% 90% at 23% 18%, rgba(76, 38, 220, .58), transparent 100%), radial-gradient(ellipse 15% 85% at 55% 18%, rgba(89, 35, 210, .42), transparent 100%);"></div>
+<body class="overflow-x-hidden bg-canvas font-sans text-ink antialiased">
+    <div aria-hidden="true" class="page-grid"></div>
 
-        <div class="relative z-10 mx-auto hidden h-11 max-w-6xl items-center justify-between px-6 lg:flex">
-            <div class="flex items-center gap-3" aria-label="Social media">
-                <a href="#contact" aria-label="LinkedIn"
-                    class="flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.04] text-sm font-bold text-gray-300 transition hover:bg-blue-600 hover:text-white">in</a>
-                <a href="#contact" aria-label="Facebook"
-                    class="flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.04] text-sm font-bold text-gray-300 transition hover:bg-blue-600 hover:text-white">f</a>
-                <a href="#contact" aria-label="Tumblr"
-                    class="flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.04] text-sm font-bold text-gray-300 transition hover:bg-blue-600 hover:text-white">t</a>
-                <a href="#contact" aria-label="YouTube"
-                    class="flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.04] text-gray-300 transition hover:bg-blue-600 hover:text-white">
-                    <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="1.8">
-                        <rect x="3" y="6" width="18" height="12" rx="3"></rect>
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m10 9 5 3-5 3z"></path>
-                    </svg>
-                </a>
-            </div>
+    <!-- Header section: site navigation, theme toggle, and admin access. -->
+    <header id="site-header" class="site-header fixed inset-x-0 top-0 z-50 border-b border-transparent backdrop-blur-md">
+        <div aria-hidden="true" class="game-scroll-progress absolute left-0 top-0 h-px w-full origin-left scale-x-0 bg-primary"></div>
 
-            <div class="flex items-center gap-8 text-sm text-[#858589]">
-                <a href="mailto:firasumairisgood@gmail.com" class="flex items-center gap-3 transition hover:text-white">
-                    <svg aria-hidden="true" class="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                        <path d="M3 4v16l18-8z"></path>
-                    </svg>
-                    <span>firasumairisgood@gmail.com</span>
-                </a>
-            </div>
-        </div>
-
-        <nav aria-label="Main navigation" class="relative z-10 mx-auto max-w-6xl px-6">
-            <div class="flex h-[68px] items-center justify-between">
-                <a href="#home" class="flex shrink-0 items-center gap-2.5" aria-label="Designer home">
-                    <svg aria-hidden="true" class="h-6 w-6 text-blue-600" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"
-                            stroke-dasharray="3 2"></circle>
-                        <path d="M12 6v6l4 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                            stroke-linejoin="round"></path>
-                        <path d="m7 3 2 2M17 19l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        </path>
-                    </svg>
-                    <span class="text-base font-bold tracking-[0.08em]">designer</span>
+        <nav aria-label="Main navigation" class="mx-auto max-w-6xl px-6">
+            <div class="flex h-16 items-center justify-between gap-6">
+                <a href="#home" class="font-mono text-sm font-semibold tracking-tight text-ink" aria-label="{{ $profile['name'] }} home">
+                    <span class="text-primary">~/</span>{{ $profile['handle'] }}<span aria-hidden="true" class="cursor-blink text-primary">_</span>
                 </a>
 
-                <ul class="hidden items-center gap-10 text-sm font-medium text-[#89898d] md:flex">
-                    <li><a data-section-link href="#home" class="transition hover:text-cyan-300">Home</a></li>
-                    <li><a data-section-link href="#services" class="transition hover:text-cyan-300">Services</a></li>
-                    <li><a data-section-link href="#projects" class="transition hover:text-cyan-300">Projects</a></li>
-                    <li><a data-section-link href="#about" class="transition hover:text-cyan-300">About</a></li>
-                    <li><a data-section-link href="#portfolio" class="transition hover:text-white">Portfolio</a></li>
-                    <li><a data-section-link href="#contact" class="transition hover:text-white">Contact</a></li>
+                <ul class="hidden items-center gap-8 text-sm text-muted md:flex">
+                    @foreach ($navigation as $sectionId => $label)
+                        <li><a data-section-link href="#{{ $sectionId }}" class="nav-link transition hover:text-ink">{{ $label }}</a></li>
+                    @endforeach
                 </ul>
 
-                <div class="hidden shrink-0 items-center gap-4 md:flex">
+                <div class="hidden items-center gap-3 md:flex">
+                    @include('partials.theme-toggle')
                     @auth
                         @if (auth()->user()->is_admin)
-                            <a href="{{ route('admin.profile.edit') }}" class="rounded-full border border-white/15 px-4 py-2 text-sm text-gray-300 transition hover:border-blue-400 hover:text-white">Admin</a>
+                            <a href="{{ route('admin.profile.edit') }}" class="rounded-lg border border-edge/15 px-3.5 py-2 text-sm text-ink-soft transition hover:border-primary/60 hover:text-ink">Admin</a>
                         @endif
                     @else
-                        <a href="{{ route('login') }}" class="rounded-full border border-white/15 px-4 py-2 text-sm text-gray-300 transition hover:border-blue-400 hover:text-white">Admin Login</a>
+                        <a href="{{ route('login') }}" class="rounded-lg px-3 py-2 text-sm text-muted transition hover:text-ink">Admin Login</a>
                     @endauth
-                    <a href="#contact"
-                        class="inline-flex rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-5 py-2.5 text-sm font-medium transition hover:brightness-110">
-                        Discuss for Projects
+                    <a href="#contact" class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition hover:-translate-y-0.5 hover:shadow-[0_8px_24px_var(--theme-glow)]">
+                        Hire me
                     </a>
                 </div>
 
-                <button id="menu-btn" type="button"
-                    class="inline-flex items-center gap-2 rounded-full border border-gray-700 px-4 py-2 text-sm font-medium text-gray-200 transition hover:border-blue-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 md:hidden"
-                    aria-controls="mobile-menu" aria-expanded="false">
-                    <span>Menu</span>
-                    <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+                <div class="flex items-center gap-3 md:hidden">
+                    @include('partials.theme-toggle')
+                    <button id="menu-btn" type="button"
+                        class="inline-flex items-center gap-2 rounded-lg border border-edge/15 px-3.5 py-2 text-sm font-medium text-ink transition hover:border-primary/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <span>Menu</span>
+                        <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
-            <div id="mobile-menu" class="hidden border-t border-white/10 py-5 md:hidden">
-                <ul class="flex flex-col items-center gap-4 text-sm font-medium text-gray-300">
-                    <li><a href="#home" class="transition hover:text-white">Home</a></li>
-                    <li><a href="#services" class="transition hover:text-white">Services</a></li>
-                    <li><a data-section-link href="#projects" class="transition hover:text-white">Projects</a></li>
-                    <li><a href="#about" class="transition hover:text-white">About</a></li>
-                    <li><a data-section-link href="#portfolio" class="transition hover:text-white">Portfolio</a></li>
-                    <li><a data-section-link href="#contact" class="transition hover:text-white">Contact</a></li>
+            <div id="mobile-menu" class="hidden border-t border-edge/10 bg-canvas/95 py-5 md:hidden">
+                <ul class="flex flex-col gap-1 text-sm text-ink-soft">
+                    @foreach ($navigation as $sectionId => $label)
+                        <li><a data-section-link href="#{{ $sectionId }}" class="block rounded-lg px-3 py-2 transition hover:bg-edge/5 hover:text-ink">{{ $label }}</a></li>
+                    @endforeach
                     @auth
                         @if (auth()->user()->is_admin)
-                            <li><a href="{{ route('admin.profile.edit') }}" class="rounded-full border border-white/15 px-4 py-2 transition hover:border-blue-400 hover:text-white">Admin Dashboard</a></li>
+                            <li><a href="{{ route('admin.profile.edit') }}" class="block rounded-lg px-3 py-2 transition hover:bg-edge/5 hover:text-ink">Admin Dashboard</a></li>
                         @endif
                     @else
-                        <li><a href="{{ route('login') }}" class="rounded-full border border-white/15 px-4 py-2 transition hover:border-blue-400 hover:text-white">Admin Login</a></li>
+                        <li><a href="{{ route('login') }}" class="block rounded-lg px-3 py-2 transition hover:bg-edge/5 hover:text-ink">Admin Login</a></li>
                     @endauth
-                    <li>
-                        <a href="#contact"
-                            class="mt-2 inline-flex rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-5 py-2.5 font-medium text-white transition hover:brightness-110">
-                            Discuss for Projects
-                        </a>
+                    <li class="pt-3">
+                        <a href="#contact" class="inline-flex rounded-lg bg-primary px-4 py-2.5 font-semibold text-on-primary">Hire me</a>
                     </li>
                 </ul>
             </div>
@@ -119,241 +96,323 @@
     </header>
 
     <main>
-        <!-- Home section: introduction, hero portrait, and primary calls to action. -->
-        <section id="home" class="section-divider relative isolate min-h-[650px] overflow-hidden px-6 py-20 text-white sm:py-24">
-            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
-                <div class="ambient-orb absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-blue-950/10 blur-3xl"></div>
-                <div class="ambient-orb ambient-orb-delayed absolute right-[8%] top-1/3 h-56 w-56 rounded-full bg-purple-950/10 blur-3xl"></div>
-                <div class="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.035),transparent_70%)]"></div>
-                <div class="absolute left-1/2 top-[42%] hidden h-80 w-[min(76vw,1100px)] -translate-x-1/2 border border-white/[0.035] lg:block"></div>
-            </div>
+        <!-- Home section: introduction, portrait, and primary calls to action. -->
+        <section id="home" class="relative isolate overflow-hidden px-6 pb-24 pt-32 sm:pb-32 sm:pt-40">
+            <div class="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+                <div>
+                    <p class="intro-rise font-mono text-sm text-primary" style="--i: 0">~/{{ $profile['handle'] }} $ whoami</p>
 
-            <div class="relative mx-auto grid min-h-[510px] max-w-6xl items-center lg:grid-cols-2">
-                <div data-scroll-reveal class="relative z-20 max-w-xl pb-10 lg:pb-0">
-                    <h1 class="text-5xl font-light leading-[1.12] tracking-tight text-gray-200 sm:text-6xl">
-                        This is your<br>
-                        programmer
+                    <h1 class="intro-rise mt-5 text-5xl font-semibold tracking-tight text-ink sm:text-7xl" style="--i: 1">
+                        {{ $profile['name'] }}
                     </h1>
-                    <p class="mt-2 text-5xl font-bold leading-tight tracking-tight text-blue-600 sm:text-6xl">
-                        FIRAS UMAIR
-                    </p>
-                    <p class="mt-7 max-w-lg text-sm leading-6 text-gray-500 sm:text-base">
-                        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
-                        Velit officia consequat duis enim velit mollit. Exercitation veniam consequat
-                        sunt nostrud amet.
+
+                    <p class="intro-rise mt-5 text-xl leading-snug text-ink-soft sm:text-2xl" style="--i: 2">
+                        Computer Technology student &amp;
+                        <span data-word-rotator data-words="{{ json_encode($profile['roles']) }}" class="word-rotator text-primary">{{ $profile['roles'][0] }}</span>
                     </p>
 
-                    <div class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4">
-                        <a href="#contact" class="motion-button inline-flex rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-5 py-3 text-sm font-medium text-white hover:brightness-110">
-                            Discuss for Projects
+                    <p class="intro-rise mt-5 max-w-xl text-base leading-7 text-muted" style="--i: 3">{{ $profile['bio'] }}</p>
+
+                    <div class="intro-rise mt-9 flex flex-wrap gap-3" style="--i: 4">
+                        <a href="#projects" class="group inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-on-primary transition hover:-translate-y-0.5 hover:shadow-[0_10px_30px_var(--theme-glow)]">
+                            View projects
+                            <span aria-hidden="true" class="transition group-hover:translate-x-0.5">→</span>
                         </a>
-                        <a href="#portfolio" class="text-sm font-medium text-gray-200 transition hover:text-blue-400">
-                            View Portfolios
+                        <a href="{{ $profile['github_url'] }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-edge/15 px-5 py-3 text-sm font-medium text-ink transition hover:-translate-y-0.5 hover:border-primary/60">
+                            <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"></path></svg>
+                            GitHub
                         </a>
-                        <a href="#portfolio" aria-label="View portfolios" class="text-3xl leading-none text-white transition hover:translate-x-1 hover:text-blue-400">
-                            →
+                        <a href="mailto:{{ $profile['email'] }}" class="inline-flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-ink-soft transition hover:text-primary">
+                            Email me
                         </a>
                     </div>
+
+                    <dl class="intro-rise mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-edge/10 pt-6" style="--i: 5">
+                        <div>
+                            <dt class="font-mono text-xs text-faint">status</dt>
+                            <dd class="mt-1.5 flex items-center gap-2 text-sm text-ink">
+                                @if ($profile['open_to_work'])
+                                    <span aria-hidden="true" class="relative flex h-2 w-2">
+                                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60"></span>
+                                        <span class="relative inline-flex h-2 w-2 rounded-full bg-primary"></span>
+                                    </span>
+                                    Open to work
+                                @else
+                                    Busy building
+                                @endif
+                            </dd>
+                        </div>
+                        <div>
+                            <dt class="font-mono text-xs text-faint">focus</dt>
+                            <dd class="mt-1.5 text-sm text-ink">Backend &amp; APIs</dd>
+                        </div>
+                        <div>
+                            <dt class="font-mono text-xs text-faint">main stack</dt>
+                            <dd class="mt-1.5 text-sm text-ink">Laravel · PHP</dd>
+                        </div>
+                    </dl>
                 </div>
 
-                <div data-scroll-reveal class="relative mx-auto flex h-[360px] w-full max-w-md items-end justify-center lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:max-w-[48%]">
-                    <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-[78%] border border-white/[0.035] bg-gradient-to-br from-white/[0.025] via-transparent to-white/[0.015]"></div>
-                    <div class="relative z-10 flex h-[90%] w-[78%] items-center justify-center overflow-hidden border border-dashed border-white/15 bg-gradient-to-b from-white/[0.035] to-transparent text-center">
+                <div class="intro-rise hero-stage relative mx-auto w-full max-w-sm lg:max-w-none" style="--i: 3">
+                    <div data-hero-scroll class="hero-scroll-layer">
+                    <div data-tilt="9" class="relative">
+                    <div aria-hidden="true" class="depth-back preserve-3d absolute inset-0">
+                        <div class="wire-globe">
+                            <span style="--r: 0deg"></span><span style="--r: 30deg"></span><span style="--r: 60deg"></span>
+                            <span style="--r: 90deg"></span><span style="--r: 120deg"></span><span style="--r: 150deg"></span>
+                            <span class="wire-globe-latitude"></span>
+                            <span class="wire-globe-latitude" style="--z: 110px; --s: .866"></span>
+                            <span class="wire-globe-latitude" style="--z: -110px; --s: .866"></span>
+                        </div>
+                    </div>
+                    <div aria-hidden="true" class="absolute -inset-3 rounded-[1.75rem] border border-dashed border-edge/10"></div>
+                    <figure class="group depth-1 relative aspect-[4/5] overflow-hidden rounded-2xl border border-edge/10 bg-surface shadow-[0_40px_80px_var(--theme-shadow)]">
                         @if ($heroImage)
-                            <img src="{{ $heroImage }}" alt="Portfolio portrait" class="absolute inset-0 h-full w-full object-cover object-top grayscale">
-                            <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"></div>
+                            <img src="{{ $heroImage }}" alt="Portrait of {{ $profile['name'] }}" class="absolute inset-0 h-full w-full object-cover object-top grayscale transition duration-700 group-hover:scale-[1.03]">
                         @else
-                            <div class="flex flex-col items-center">
-                                <div aria-hidden="true" class="relative mb-5 h-28 w-28 overflow-hidden rounded-full border border-white/10 bg-gradient-to-br from-gray-600/40 to-gray-950/70">
-                                    <div class="absolute bottom-[-20%] left-1/2 h-20 w-20 -translate-x-1/2 rounded-full bg-gray-400/20 blur-sm"></div>
-                                </div>
-                                <span class="text-xs uppercase tracking-[0.25em] text-gray-500">Your photo goes here</span>
-                                <span class="mt-2 text-[11px] text-gray-600">Add your portrait when ready</span>
+                            <div class="flex h-full flex-col items-center justify-center px-6 text-center">
+                                <div aria-hidden="true" class="mb-5 flex h-24 w-24 items-center justify-center rounded-full border border-edge/10 bg-edge/[0.04] font-mono text-2xl text-faint">FU</div>
+                                <span class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Your photo goes here</span>
+                                <span class="mt-2 text-xs text-faint">Add your portrait from the admin panel</span>
                             </div>
                         @endif
+                        <figcaption class="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-xl border border-edge/10 bg-canvas/80 px-4 py-3 backdrop-blur-md">
+                            <span class="font-mono text-xs text-ink">{{ '@'.$profile['handle'] }}</span>
+                            <span class="font-mono text-xs text-muted">Laravel · PHP · JS</span>
+                        </figcaption>
+                    </figure>
+
+                    <div aria-hidden="true" class="depth-3 preserve-3d absolute -left-6 top-[12%] sm:-left-12">
+                        <div class="float-y code-chip"><span class="text-primary">$</span> php artisan serve</div>
+                    </div>
+                    <div aria-hidden="true" class="depth-2 preserve-3d absolute -right-4 top-[46%] sm:-right-10">
+                        <div class="float-y code-chip" style="--delay: -2s"><span class="text-primary">GET</span> /api/projects <span class="text-primary">200</span></div>
+                    </div>
+                    <div aria-hidden="true" class="depth-3 preserve-3d absolute -left-4 bottom-[18%] sm:-left-8">
+                        <div class="float-y code-chip" style="--delay: -4s"><span class="text-primary">❯</span> ollama run llama3</div>
+                    </div>
+                    </div>
                     </div>
                 </div>
+            </div>
 
-                <div aria-hidden="true" class="pointer-events-none absolute right-[5%] top-[8%] hidden h-14 w-14 rounded-full opacity-30 [background:repeating-linear-gradient(45deg,#737373_0_2px,transparent_2px_6px)] lg:block"></div>
-                <svg aria-hidden="true" class="pointer-events-none absolute right-[4%] top-[23%] hidden h-10 w-10 text-purple-600 lg:block" viewBox="0 0 40 40" fill="currentColor">
-                    <path d="M20 0C21.5 12 28 18.5 40 20 28 21.5 21.5 28 20 40 18.5 28 12 21.5 0 20 12 18.5 18.5 12 20 0Z"></path>
-                </svg>
+            <div aria-hidden="true" class="hero-floor"></div>
+        </section>
 
-                <div class="pointer-events-none absolute bottom-[12%] right-[5%] z-20 hidden h-32 w-32 items-center justify-center rounded-full border border-purple-600 text-white lg:flex">
-                    <svg aria-hidden="true" class="absolute inset-0 h-full w-full animate-[spin_24s_linear_infinite]" viewBox="0 0 100 100">
-                        <defs>
-                            <path id="badge-circle" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"></path>
-                        </defs>
-                        <text fill="currentColor" font-size="9" letter-spacing="3">
-                            <textPath href="#badge-circle">100% SKILLED IN PROGRAMMING • </textPath>
-                        </text>
-                    </svg>
-                    <span class="text-3xl">✦</span>
+        <!-- About section: bio, terminal, focus areas, and current interests in a bento grid. -->
+        <section id="about" class="px-6 py-20 sm:py-24">
+            <div class="mx-auto max-w-6xl">
+                <x-section-heading number="01" label="About" description="A quick look at who I am, what I build, and what I’m learning next.">
+                    Building practical systems, <span class="text-primary">one project at a time.</span>
+                </x-section-heading>
+
+                <div class="mt-12 grid gap-4 lg:grid-cols-3">
+                    <div data-scroll-reveal="flip" class="lg:col-span-2">
+                    <article data-tilt="4" class="spotlight-card h-full rounded-2xl border border-edge/10 bg-surface p-7">
+                        <p class="font-mono text-xs text-faint">about.md</p>
+                        <div class="mt-4 space-y-4 text-base leading-7 text-ink-soft">
+                            @foreach ($profile['about'] as $paragraph)
+                                <p>{{ $paragraph }}</p>
+                            @endforeach
+                        </div>
+                    </article>
+                    </div>
+
+                    <div data-scroll-reveal="flip" class="lg:row-span-2">
+                    <div data-tilt="6" class="h-full overflow-hidden rounded-2xl border border-edge/10 bg-surface shadow-[0_30px_60px_var(--theme-shadow)]">
+                        <div class="flex items-center gap-2 border-b border-edge/10 px-4 py-3">
+                            <span aria-hidden="true" class="h-2.5 w-2.5 rounded-full bg-edge/20"></span>
+                            <span aria-hidden="true" class="h-2.5 w-2.5 rounded-full bg-edge/20"></span>
+                            <span aria-hidden="true" class="h-2.5 w-2.5 rounded-full bg-edge/20"></span>
+                            <span class="ml-2 font-mono text-xs text-faint">firas@linux: ~</span>
+                        </div>
+                        <div data-terminal="{{ json_encode($terminalSessions) }}" aria-label="Terminal summary" class="min-h-72 p-5 font-mono text-[13px] leading-6">
+                            <div data-terminal-body class="space-y-0.5">
+                                @foreach ($terminalSessions as $session)
+                                    <p class="text-ink"><span class="text-primary">$ </span>{{ $session['command'] }}</p>
+                                    @foreach ($session['output'] as $outputText)
+                                        <p class="text-muted">{{ $outputText }}</p>
+                                    @endforeach
+                                @endforeach
+                                <p class="text-ink"><span class="text-primary">$ </span><span aria-hidden="true" class="terminal-caret"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div data-scroll-reveal="flip">
+                    <article data-tilt="6" class="spotlight-card h-full rounded-2xl border border-edge/10 bg-surface p-7">
+                        <p class="font-mono text-xs text-faint">what-i-do.txt</p>
+                        <ul class="mt-4 space-y-2.5 text-sm text-ink-soft">
+                            @foreach ($profile['focus'] as $focusArea)
+                                <li class="flex gap-3"><span aria-hidden="true" class="font-mono text-primary">→</span>{{ $focusArea }}</li>
+                            @endforeach
+                        </ul>
+                    </article>
+                    </div>
+
+                    <div data-scroll-reveal="flip">
+                    <article data-tilt="6" class="spotlight-card h-full rounded-2xl border border-edge/10 bg-surface p-7">
+                        <p class="font-mono text-xs text-faint">currently-exploring/</p>
+                        <dl class="mt-4 space-y-3.5">
+                            @foreach ($profile['exploring'] as $interest)
+                                <div>
+                                    <dt class="text-sm font-medium text-ink">{{ $interest['title'] }}</dt>
+                                    <dd class="mt-0.5 text-xs leading-5 text-muted">{{ $interest['detail'] }}</dd>
+                                </div>
+                            @endforeach
+                        </dl>
+                    </article>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- About section: explains the design process. -->
-        <section id="about" class="section-divider relative overflow-hidden px-6 py-20 pb-32 text-white sm:py-24 lg:pb-48">
-            <div aria-hidden="true" class="pointer-events-none absolute inset-0">
-                <div class="absolute inset-x-0 top-1/2 h-px bg-white/[0.025]"></div>
-                <div class="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.02),transparent_70%)]"></div>
-            </div>
+        <!-- Stack section: technologies grouped by area. -->
+        <section id="stack" class="px-6 py-20 sm:py-24">
+            <div class="mx-auto max-w-6xl">
+                <x-section-heading number="02" label="Stack" description="Tools I use to build, from the database up to the interface.">
+                    The <span class="text-primary">tech stack</span> behind my work.
+                </x-section-heading>
 
-            <div class="relative mx-auto max-w-6xl">
-                <div data-scroll-reveal class="mx-auto max-w-xl text-center">
-                    <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gray-500">About me</p>
-                    <h2 class="mt-4 text-3xl font-light sm:text-4xl">
-                        My <span class="font-medium text-blue-600">work process</span>
-                    </h2>
-                    <p class="mt-4 text-sm leading-6 text-gray-500 sm:text-base">
-                        I follow a thoughtful process to turn ideas into clear, effective design.
-                    </p>
+                @php
+                    $cubeFaces = [
+                        ['name' => 'Laravel', 'area' => 'framework'],
+                        ['name' => 'PHP', 'area' => 'backend'],
+                        ['name' => 'JavaScript', 'area' => 'frontend'],
+                        ['name' => 'Node.js', 'area' => 'runtime'],
+                        ['name' => 'MySQL', 'area' => 'database'],
+                        ['name' => 'Linux', 'area' => 'daily os'],
+                    ];
+                @endphp
+                <div class="mt-12 grid gap-4 lg:grid-cols-[minmax(0,340px)_1fr]">
+                    <div data-scroll-reveal="flip" class="relative flex min-h-80 flex-col items-center justify-center overflow-hidden rounded-2xl border border-edge/10 bg-surface p-8">
+                        <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,var(--theme-glow-soft),transparent_65%)]"></div>
+                        <div class="tech-cube-scene relative">
+                            <div data-tech-cube class="tech-cube" role="img" aria-label="3D cube showing Laravel, PHP, JavaScript, Node.js, MySQL and Linux">
+                                @foreach ($cubeFaces as $face)
+                                    <div class="tech-cube-face">
+                                        <span class="text-lg font-semibold text-ink">{{ $face['name'] }}</span>
+                                        <span class="font-mono text-[11px] text-primary">{{ $face['area'] }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <p class="relative mt-12 font-mono text-[11px] text-faint">drag to spin ↻</p>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        @foreach ($profile['stack'] as $group => $technologies)
+                            <div data-scroll-reveal="flip" class="{{ $loop->last ? 'sm:col-span-2' : '' }}">
+                                <div data-tilt="5" class="spotlight-card h-full rounded-2xl border border-edge/10 bg-surface p-6">
+                                    <h3 class="font-mono text-xs text-faint">{{ strtolower($group) }}/</h3>
+                                    <ul class="mt-4 flex flex-wrap gap-2">
+                                        @foreach ($technologies as $technology)
+                                            <li class="rounded-md border border-edge/10 bg-edge/[0.03] px-2.5 py-1 font-mono text-xs text-ink-soft transition hover:-translate-y-0.5 hover:border-primary/50 hover:text-primary">{{ $technology }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
-                <ol class="relative mt-12 grid grid-cols-1 justify-items-center gap-x-5 gap-y-4 sm:mt-16 lg:mt-20 lg:grid-cols-6 lg:gap-y-0">
-                    @foreach (['Empathize', 'Ideate', 'Qualitative test', 'Define', 'Prototype', 'Quantitative test'] as $index => $step)
-                        <li data-scroll-reveal class="relative flex h-40 w-full items-center justify-center sm:h-52 sm:max-w-[190px] {{ $index % 2 === 1 ? 'lg:translate-y-36' : '' }}">
-                            <div aria-hidden="true" class="absolute h-28 w-28 rotate-45 border border-dashed border-gray-500/50 sm:h-40 sm:w-40"></div>
-                            <div aria-hidden="true" class="absolute h-24 w-24 rotate-45 rounded-xl border border-gray-400/35 bg-[#0c0c0f]/90 shadow-[0_0_35px_rgba(255,255,255,0.025)] transition duration-300 hover:border-blue-500/60 sm:h-32 sm:w-32"></div>
-                            <span class="relative z-10 max-w-20 text-center text-sm font-medium leading-5 text-gray-200 sm:max-w-24 sm:text-base">
-                                {{ $step }}
-                            </span>
-                            @if ($index < 5)
-                                <svg aria-hidden="true" class="absolute bottom-0 left-1/2 h-5 w-5 -translate-x-1/2 text-blue-600 lg:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 3v17m0 0-6-6m6 6 6-6"></path>
-                                </svg>
-                            @endif
-                            @if ($index < 5)
-                                <svg aria-hidden="true"
-                                    class="absolute -right-4 hidden h-8 w-8 text-blue-600 lg:block {{ $index % 2 === 0 ? 'top-[68%]' : 'top-[18%]' }}"
-                                    viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"
-                                    stroke-linecap="square" stroke-linejoin="miter">
-                                    @if ($index % 2 === 0)
-                                        <path d="M3 3 25 25M15 25h10V15"></path>
-                                    @else
-                                        <path d="M3 29 25 7M15 7h10v10"></path>
-                                    @endif
-                                </svg>
-                            @endif
-                        </li>
-                    @endforeach
-                </ol>
+                <div class="mt-16">
+                    <p data-scroll-reveal class="font-mono text-xs uppercase tracking-[0.2em] text-faint">How I work</p>
+                    <ol class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        @foreach ($processSteps as $index => $step)
+                            <li data-scroll-reveal="flip" class="spotlight-card group rounded-2xl border border-edge/10 bg-surface p-6">
+                                <span class="font-mono text-xs text-primary">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                <h3 class="mt-3 font-medium text-ink">{{ $step['title'] }}</h3>
+                                <p class="mt-1.5 text-sm leading-6 text-muted">{{ $step['description'] }}</p>
+                            </li>
+                        @endforeach
+                    </ol>
+                </div>
             </div>
         </section>
 
         <!-- Services section: displays admin-managed service cards. -->
-        <section id="services" class="section-divider relative overflow-hidden px-6 pb-24 pt-20 text-white sm:pt-24">
-            <div aria-hidden="true" class="pointer-events-none absolute inset-0">
-                <div class="absolute inset-x-0 top-[42%] h-px bg-white/[0.035]"></div>
-                <div class="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.025),transparent_70%)]"></div>
-            </div>
+        <section id="services" class="px-6 py-20 sm:py-24">
+            <div class="mx-auto max-w-6xl">
+                <x-section-heading number="03" label="Services" description="Ways I can help bring your idea to life.">
+                    What I can <span class="text-primary">build for you.</span>
+                </x-section-heading>
 
-            <div class="relative mx-auto max-w-6xl">
-                <div data-scroll-reveal class="mx-auto max-w-xl text-center">
-                    <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gray-500">Services</p>
-                    <h2 class="mt-4 text-3xl font-light sm:text-4xl">
-                        My <span class="font-medium text-blue-600">other services</span>
-                    </h2>
-                    <p class="mt-4 text-sm leading-6 text-gray-500 sm:text-base">
-                        Thoughtful creative services to help your brand stand out and grow.
-                    </p>
-                </div>
-
-                <div class="mt-24 grid gap-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-                    @foreach ($services as $service)
-                        <article data-scroll-reveal class="motion-card group relative mt-8 border border-white/[0.035] bg-[#101014]/90 px-7 pb-7 pt-14 text-center hover:border-blue-600/30">
-                            <div class="absolute left-1/2 top-0 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 rotate-45 items-center justify-center border border-white/[0.07] bg-[#0b0b0e] transition group-hover:border-blue-600/50">
-                                <div class="-rotate-45 text-gray-200">
-                                    @switch($service->icon)
-                                        @case('palette')
-                                            <svg aria-hidden="true" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18h1.2a1.8 1.8 0 0 0 1.3-3.1 1.8 1.8 0 0 1 1.3-3.1H18a3 3 0 0 0 3-3c0-4.9-4-8.8-9-8.8Z"></path><circle cx="7.5" cy="11" r="1"></circle><circle cx="10" cy="7.5" r="1"></circle><circle cx="14" cy="7.5" r="1"></circle><circle cx="17" cy="11" r="1"></circle></svg>
-                                            @break
-                                        @case('pen-tool')
-                                            <svg aria-hidden="true" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 7-7 3 3-7 7-3-3Z"></path><path d="m18 13-3-3 2-2a3 3 0 0 0-4.2-4.2l-2 2 3 3"></path><path d="M11 9 4 16v4h4l7-7"></path><circle cx="6" cy="18" r=".7" fill="currentColor"></circle></svg>
-                                            @break
-                                        @case('code')
-                                            <svg aria-hidden="true" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"></path></svg>
-                                            @break
-                                        @case('megaphone')
-                                            <svg aria-hidden="true" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 13v-2Z"></path><path d="m11 15 2 6H8l-2-7M5 11v2"></path></svg>
-                                            @break
-                                        @case('camera')
-                                            <svg aria-hidden="true" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l2-3h6l2 3h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                                            @break
-                                        @default
-                                            <svg aria-hidden="true" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.1 6.9L21 12l-6.9 2.1L12 21l-2.1-6.9L3 12l6.9-2.1L12 3Z"></path><path d="m19 2 .8 2.2L22 5l-2.2.8L19 8l-.8-2.2L16 5l2.2-.8L19 2Z"></path></svg>
-                                    @endswitch
-                                </div>
+                <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    @forelse ($services as $service)
+                        <div data-scroll-reveal="flip">
+                        <article data-tilt="7" class="spotlight-card h-full flex flex-col rounded-2xl border border-edge/10 bg-surface p-7">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary">
+                                @switch($service->icon)
+                                    @case('palette')
+                                        <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18h1.2a1.8 1.8 0 0 0 1.3-3.1 1.8 1.8 0 0 1 1.3-3.1H18a3 3 0 0 0 3-3c0-4.9-4-8.8-9-8.8Z"></path><circle cx="7.5" cy="11" r="1"></circle><circle cx="10" cy="7.5" r="1"></circle><circle cx="14" cy="7.5" r="1"></circle><circle cx="17" cy="11" r="1"></circle></svg>
+                                        @break
+                                    @case('pen-tool')
+                                        <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 7-7 3 3-7 7-3-3Z"></path><path d="m18 13-3-3 2-2a3 3 0 0 0-4.2-4.2l-2 2 3 3"></path><path d="M11 9 4 16v4h4l7-7"></path></svg>
+                                        @break
+                                    @case('code')
+                                        <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"></path></svg>
+                                        @break
+                                    @case('megaphone')
+                                        <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 13v-2Z"></path><path d="m11 15 2 6H8l-2-7M5 11v2"></path></svg>
+                                        @break
+                                    @case('camera')
+                                        <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l2-3h6l2 3h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                        @break
+                                    @default
+                                        <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.1 6.9L21 12l-6.9 2.1L12 21l-2.1-6.9L3 12l6.9-2.1L12 3Z"></path></svg>
+                                @endswitch
                             </div>
-                            <h3 class="text-lg font-medium text-gray-200">{{ $service->title }}</h3>
-                            <div class="mx-auto mt-3 flex w-8 items-center gap-1">
-                                <span class="h-0.5 flex-1 bg-blue-600"></span>
-                                <span class="h-0.5 flex-1 bg-purple-600"></span>
-                            </div>
-                            <p class="mt-5 min-h-12 text-sm leading-5 text-gray-500">{{ $service->description }}</p>
-                            <a href="{{ $service->cta_url }}" class="mt-5 inline-flex items-center gap-4 rounded-full bg-[#1b1b20] px-4 py-2.5 text-xs font-medium text-gray-200 transition hover:bg-blue-600">
+                            <h3 class="mt-6 text-lg font-medium text-ink">{{ $service->title }}</h3>
+                            <p class="mt-2 flex-1 text-sm leading-6 text-muted">{{ $service->description }}</p>
+                            <a href="{{ $service->cta_url }}" class="group mt-6 inline-flex items-center gap-2 font-mono text-xs text-primary transition hover:text-primary-soft">
                                 {{ $service->cta_label }}
-                                <span aria-hidden="true" class="text-lg leading-none">→</span>
+                                <span aria-hidden="true" class="transition group-hover:translate-x-1">→</span>
                             </a>
-                            <div aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-12 w-12 opacity-30 [background:repeating-linear-gradient(45deg,#555_0_5px,transparent_5px_10px)]"></div>
                         </article>
-                    @endforeach
+                        </div>
+                    @empty
+                        <p class="rounded-2xl border border-dashed border-edge/15 px-6 py-12 text-center text-sm text-muted sm:col-span-2 lg:col-span-3">
+                            Services are coming soon.
+                        </p>
+                    @endforelse
                 </div>
             </div>
         </section>
 
-        <!-- Projects section: displays admin-managed project previews. -->
-        <section id="projects" class="section-divider relative isolate overflow-hidden px-6 py-24 text-white sm:py-28"
+        <!-- Projects section: admin-managed project previews plus selected GitHub repositories. -->
+        <section id="projects" class="px-6 py-20 sm:py-24"
             @if ($projectsBackgroundImage)
-                style="background-image: linear-gradient(180deg, rgba(7, 7, 10, .90), rgba(7, 7, 10, .82)), url('{{ $projectsBackgroundImage }}'); background-position: center; background-size: cover;"
-            @else
-                style="background-image: radial-gradient(ellipse at 50% 0%, rgba(36, 47, 110, .16), transparent 58%), linear-gradient(180deg, #09090b, #0b0b12 52%, #09090b);"
+                style="background-image: linear-gradient(180deg, var(--theme-bg), color-mix(in srgb, var(--theme-bg) 90%, transparent) 30%, color-mix(in srgb, var(--theme-bg) 90%, transparent) 70%, var(--theme-bg)), url('{{ $projectsBackgroundImage }}'); background-position: center; background-size: cover;"
             @endif>
-            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(255,255,255,.018)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.018)_1px,transparent_1px)] bg-[size:64px_64px] opacity-40"></div>
+            <div class="mx-auto max-w-6xl">
+                <x-section-heading number="04" label="Projects" description="Featured work, plus what I’ve been shipping on GitHub.">
+                    Things I’ve <span class="text-primary">built.</span>
+                </x-section-heading>
 
-            <div class="relative mx-auto max-w-6xl">
-                <div data-scroll-reveal class="mx-auto max-w-xl text-center">
-                    <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gray-400">Projects</p>
-                    <h2 class="mt-4 text-3xl font-light sm:text-4xl">
-                        My <span class="font-medium text-blue-500">completed projects</span>
-                    </h2>
-                    <p class="mt-4 text-sm leading-6 text-gray-300/70 sm:text-base">
-                        A selection of projects shaped through thoughtful design and creative problem-solving.
-                    </p>
-                </div>
-
-                <div data-scroll-reveal class="mt-10 text-center">
-                    <a href="#project-grid" class="motion-button inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(79,70,229,.28)] hover:brightness-110">
-                        View all Projects
-                    </a>
-                </div>
-
-                <div id="project-grid" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div id="project-grid" class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     @forelse ($projects as $project)
-                        <article data-scroll-reveal class="motion-card group overflow-hidden border border-white/10 bg-[#111116]/80 shadow-[0_18px_55px_rgba(0,0,0,.28)] hover:border-blue-400/40">
+                        <div data-scroll-reveal="flip">
+                        <article data-tilt="7" class="spotlight-card h-full group overflow-hidden rounded-2xl border border-edge/10 bg-surface">
                             @if ($project->url)
-                                <a href="{{ $project->url }}" target="_blank" rel="noopener noreferrer" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                                <a href="{{ $project->url }}" target="_blank" rel="noopener noreferrer" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                             @else
                                 <div>
                             @endif
-                                    <div class="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-blue-950 via-[#151522] to-purple-950">
+                                    <div class="relative aspect-[16/10] overflow-hidden border-b border-edge/10 bg-surface-raised">
                                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($project->image_path) }}"
                                             alt="{{ $project->title }} project preview"
                                             loading="lazy"
-                                            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
-                                        <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-white/[0.03]"></div>
-                                        <span class="absolute bottom-4 left-4 rounded-full border border-white/15 bg-black/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-200 backdrop-blur-sm">
-                                            {{ $project->category }}
-                                        </span>
-                                        @if ($project->url)
-                                            <span aria-hidden="true" class="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white transition group-hover:border-blue-300 group-hover:bg-blue-600">↗</span>
-                                        @endif
+                                            class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]">
                                     </div>
-                                    <div class="flex items-center justify-between gap-4 px-5 py-4">
-                                        <h3 class="font-medium text-gray-100">{{ $project->title }}</h3>
+                                    <div class="flex items-center justify-between gap-4 p-5">
+                                        <div>
+                                            <h3 class="font-medium text-ink">{{ $project->title }}</h3>
+                                            <p class="mt-1 font-mono text-xs text-muted">{{ $project->category }}</p>
+                                        </div>
                                         @if ($project->url)
-                                            <span class="shrink-0 text-xs text-blue-300">View project</span>
+                                            <span aria-hidden="true" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-edge/15 text-sm text-ink-soft transition group-hover:border-primary group-hover:bg-primary group-hover:text-on-primary">↗</span>
                                         @endif
                                     </div>
                             @if ($project->url)
@@ -362,61 +421,73 @@
                                 </div>
                             @endif
                         </article>
-                    @empty
-                        <div class="rounded-2xl border border-dashed border-white/15 bg-black/25 px-6 py-12 text-center text-sm text-gray-400 sm:col-span-2 lg:col-span-3">
-                            New projects are on the way.
                         </div>
+                    @empty
+                        <p class="rounded-2xl border border-dashed border-edge/15 px-6 py-12 text-center text-sm text-muted sm:col-span-2 lg:col-span-3">
+                            New projects are on the way.
+                        </p>
                     @endforelse
                 </div>
 
+                <div data-scroll-reveal="flip" class="mt-12 overflow-hidden rounded-2xl border border-edge/10 bg-surface">
+                    <div class="flex items-center justify-between gap-4 border-b border-edge/10 px-6 py-4">
+                        <h3 class="font-mono text-xs text-faint">github.com/{{ $profile['handle'] }}</h3>
+                        <a href="{{ $profile['github_url'] }}?tab=repositories" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-primary transition hover:text-primary-soft">View all →</a>
+                    </div>
+                    <ul class="divide-y divide-edge/10">
+                        @foreach ($profile['repositories'] as $repository)
+                            <li>
+                                <a href="{{ $profile['github_url'] }}/{{ $repository['name'] }}" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between gap-4 px-6 py-4 transition hover:bg-surface-raised">
+                                    <div class="min-w-0">
+                                        <p class="truncate font-mono text-sm text-ink transition group-hover:text-primary">{{ $repository['name'] }}</p>
+                                        <p class="mt-0.5 truncate text-sm text-muted">{{ $repository['description'] }}</p>
+                                    </div>
+                                    <div class="flex shrink-0 items-center gap-4">
+                                        <span class="hidden rounded-md border border-edge/10 px-2 py-0.5 font-mono text-xs text-muted sm:inline">{{ $repository['language'] }}</span>
+                                        <span aria-hidden="true" class="text-faint transition group-hover:translate-x-0.5 group-hover:text-primary">↗</span>
+                                    </div>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </section>
 
         <!-- Portfolio section: displays admin-managed work, descriptions, and tools. -->
-        <section id="portfolio" class="section-divider relative isolate overflow-hidden px-6 py-24 text-white sm:py-28">
-            <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(37,99,235,.12),transparent_55%),linear-gradient(180deg,#09090b,#0d0d14_50%,#09090b)]"></div>
-            <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-1/2 -z-10 h-px bg-white/[0.04]"></div>
-
+        <section id="portfolio" class="px-6 py-20 sm:py-24">
             <div class="mx-auto max-w-6xl">
-                <div data-scroll-reveal class="mx-auto max-w-xl text-center">
-                    <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gray-400">Portfolio</p>
-                    <h2 class="mt-4 text-3xl font-light sm:text-4xl">
-                        Thoughtful ideas, <span class="font-medium text-blue-500">made visible</span>
-                    </h2>
-                    <p class="mt-4 text-sm leading-6 text-gray-400 sm:text-base">
-                        A closer look at the creative disciplines behind memorable brands and digital experiences.
-                    </p>
-                </div>
+                <x-section-heading number="05" label="Portfolio" description="A closer look at selected pieces and the tools behind them.">
+                    Selected <span class="text-primary">work.</span>
+                </x-section-heading>
 
-                <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     @forelse ($portfolios as $portfolio)
-                        <article data-scroll-reveal class="motion-card group overflow-hidden border border-white/10 bg-[#111116]/80 shadow-[0_18px_55px_rgba(0,0,0,.28)] hover:border-blue-400/40">
+                        <div data-scroll-reveal="flip">
+                        <article data-tilt="7" class="spotlight-card h-full group overflow-hidden rounded-2xl border border-edge/10 bg-surface">
                             @if ($portfolio->url)
-                                <a href="{{ $portfolio->url }}" target="_blank" rel="noopener noreferrer" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
+                                <a href="{{ $portfolio->url }}" target="_blank" rel="noopener noreferrer" class="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                             @else
-                                <div>
+                                <div class="h-full">
                             @endif
-                                    <div class="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-blue-950 via-[#151522] to-purple-950">
+                                    <div class="relative aspect-[16/10] overflow-hidden border-b border-edge/10 bg-surface-raised">
                                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($portfolio->image_path) }}"
                                             alt="{{ $portfolio->title }} portfolio preview"
                                             loading="lazy"
-                                            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
-                                        <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-white/[0.03]"></div>
-                                        <span class="absolute bottom-4 left-4 rounded-full border border-white/15 bg-black/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-200 backdrop-blur-sm">
-                                            {{ $portfolio->category }}
-                                        </span>
+                                            class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]">
                                     </div>
-                                    <div class="px-5 py-5">
-                                        <div class="flex items-start justify-between gap-4">
-                                            <h3 class="font-medium text-gray-100">{{ $portfolio->title }}</h3>
+                                    <div class="p-5">
+                                        <p class="font-mono text-xs text-primary">{{ $portfolio->category }}</p>
+                                        <div class="mt-2 flex items-start justify-between gap-4">
+                                            <h3 class="font-medium text-ink">{{ $portfolio->title }}</h3>
                                             @if ($portfolio->url)
-                                                <span aria-hidden="true" class="shrink-0 text-blue-300">↗</span>
+                                                <span aria-hidden="true" class="shrink-0 text-faint transition group-hover:text-primary">↗</span>
                                             @endif
                                         </div>
-                                        <p class="mt-3 text-sm leading-6 text-gray-400">{{ $portfolio->description }}</p>
+                                        <p class="mt-2 text-sm leading-6 text-muted">{{ $portfolio->description }}</p>
                                         <div class="mt-4 flex flex-wrap gap-2">
                                             @foreach (array_filter(array_map('trim', explode(',', $portfolio->tools))) as $tool)
-                                                <span class="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs text-gray-300">{{ $tool }}</span>
+                                                <span class="rounded-md border border-edge/10 bg-edge/[0.03] px-2 py-0.5 font-mono text-xs text-ink-soft">{{ $tool }}</span>
                                             @endforeach
                                         </div>
                                     </div>
@@ -426,201 +497,69 @@
                                 </div>
                             @endif
                         </article>
+                        </div>
                     @empty
-                        <p class="rounded-xl border border-dashed border-white/15 px-6 py-12 text-center text-sm text-gray-400 sm:col-span-2 lg:col-span-3">
+                        <p class="rounded-2xl border border-dashed border-edge/15 px-6 py-12 text-center text-sm text-muted sm:col-span-2 lg:col-span-3">
                             Portfolio pieces are coming soon.
                         </p>
                     @endforelse
                 </div>
             </div>
         </section>
+
+        <!-- Contact section: direct email and GitHub links. -->
+        <section id="contact" aria-labelledby="contact-heading" class="px-6 py-20 sm:py-28">
+            <div data-scroll-reveal="flip" class="mx-auto max-w-6xl">
+            <div data-tilt="3" class="spotlight-card relative grid gap-10 overflow-hidden rounded-3xl border border-edge/10 bg-surface p-8 sm:p-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+                <div aria-hidden="true" class="orbit-scene pointer-events-none absolute -right-24 -top-24 h-80 w-80 opacity-70">
+                    <span class="orbit-ring" style="--orbit-tilt: 68deg; --orbit-speed: 14s"></span>
+                    <span class="orbit-ring" style="--orbit-tilt: 76deg; --orbit-speed: 22s; inset: 14%"></span>
+                    <span class="orbit-ring" style="--orbit-tilt: 60deg; --orbit-speed: 30s; inset: 28%"></span>
+                </div>
+                <div class="relative">
+                    <p class="font-mono text-xs uppercase tracking-[0.2em] text-primary">06 / Contact</p>
+                    <h2 id="contact-heading" class="mt-3 text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
+                        Let’s build something <span class="text-primary">useful.</span>
+                    </h2>
+                    <p class="mt-4 max-w-md text-base leading-7 text-muted">
+                        Have a project, internship, or idea in mind? I’d love to hear about it.
+                    </p>
+                </div>
+
+                <div class="relative space-y-3">
+                    <a href="mailto:{{ $profile['email'] }}?subject=Project%20inquiry" class="group flex items-center justify-between gap-4 rounded-xl border border-edge/10 bg-canvas px-5 py-4 transition hover:border-primary/50">
+                        <span>
+                            <span class="block font-mono text-xs text-faint">email</span>
+                            <span class="mt-0.5 block break-all text-sm text-ink">{{ $profile['email'] }}</span>
+                        </span>
+                        <span aria-hidden="true" class="text-faint transition group-hover:translate-x-0.5 group-hover:text-primary">→</span>
+                    </a>
+                    <a href="{{ $profile['github_url'] }}" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between gap-4 rounded-xl border border-edge/10 bg-canvas px-5 py-4 transition hover:border-primary/50">
+                        <span>
+                            <span class="block font-mono text-xs text-faint">github</span>
+                            <span class="mt-0.5 block text-sm text-ink">{{ '@'.$profile['handle'] }}</span>
+                        </span>
+                        <span aria-hidden="true" class="text-faint transition group-hover:translate-x-0.5 group-hover:text-primary">↗</span>
+                    </a>
+                </div>
+            </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Contact section: provides direct email contact and a project inquiry link. -->
-    <section id="contact" aria-labelledby="contact-heading" class="section-divider relative isolate overflow-hidden px-6 py-20 text-white sm:py-24">
-        <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_45%,rgba(37,99,235,.12),transparent_58%)]"></div>
-        <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent"></div>
-
-        <div class="mx-auto max-w-6xl">
-            <div data-scroll-reveal class="motion-card relative overflow-hidden border border-white/[0.08] bg-[#111116]/90 px-7 py-12 text-center shadow-[0_18px_55px_rgba(0,0,0,.28)] sm:px-12 sm:py-16">
-                <div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-20 [background:linear-gradient(90deg,transparent_48%,rgba(255,255,255,.06)_49%,transparent_50%),linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px)] [background-size:120px_100%,100%_36px]"></div>
-                <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue-950/35 via-transparent to-purple-950/35"></div>
-
-                <div class="relative mx-auto max-w-2xl">
-                    <p class="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-300">Contact</p>
-                    <h2 id="contact-heading" class="mt-4 text-3xl font-light tracking-tight sm:text-4xl">
-                        Have a project <span class="font-medium text-blue-400">in mind?</span>
-                    </h2>
-                    <p class="mx-auto mt-4 max-w-xl text-sm leading-6 text-gray-400 sm:text-base">
-                        I’d love to hear what you’re working on. Get in touch and let’s make something great together.
-                    </p>
-                    <a href="mailto:firasumairisgood@gmail.com" class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-200 transition hover:text-cyan-300">
-                        <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                            <path d="m4 7 8 6 8-6"></path>
-                        </svg>
-                        firasumairisgood@gmail.com
-                    </a>
-                    <div class="mt-8">
-                        <a href="mailto:firasumairisgood@gmail.com?subject=Project%20inquiry" class="motion-button inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-3 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(79,70,229,.25)] hover:brightness-110">
-                            Start a conversation
-                            <span aria-hidden="true" class="text-lg leading-none">→</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer section: secondary navigation, contact details, and copyright. -->
-    <footer class="border-t border-white/[0.07] bg-[#08080b] px-6 pb-8 pt-10 text-white sm:pt-12">
-        <div class="mx-auto max-w-6xl">
-            <div class="grid gap-10 border-b border-white/[0.07] pb-9 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
-                <div>
-                    <a href="#home" class="inline-flex items-center gap-2.5 text-base font-bold tracking-[0.08em] transition hover:text-cyan-300">
-                        <svg aria-hidden="true" class="h-6 w-6 text-blue-500" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2"></circle>
-                            <path d="M12 6v6l4 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                        designer
-                    </a>
-                    <p class="mt-4 max-w-sm text-sm leading-6 text-gray-500">Creative design and digital experiences, made with care from first idea to final detail.</p>
-                </div>
-
-                <div>
-                    <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Explore</h2>
-                    <nav aria-label="Footer navigation" class="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-sm text-gray-500">
-                        <a href="#home" class="transition hover:text-cyan-300">Home</a>
-                        <a href="#services" class="transition hover:text-cyan-300">Services</a>
-                        <a href="#about" class="transition hover:text-cyan-300">About</a>
-                        <a href="#projects" class="transition hover:text-cyan-300">Projects</a>
-                        <a href="#portfolio" class="transition hover:text-cyan-300">Portfolio</a>
-                    </nav>
-                </div>
-
-                <div>
-                    <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">Get in touch</h2>
-                    <a href="mailto:firasumairisgood@gmail.com" class="mt-4 inline-flex items-center gap-2 text-sm text-gray-300 transition hover:text-cyan-300">
-                        <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                            <path d="m4 7 8 6 8-6"></path>
-                        </svg>
-                        firasumairisgood@gmail.com
-                    </a>
-                </div>
-            </div>
-
-            <div class="flex flex-col items-center justify-between gap-4 pt-6 text-xs text-gray-600 sm:flex-row">
-                <p>&copy; {{ now()->year }} designer. All rights reserved.</p>
-                <a href="#home" class="inline-flex items-center gap-2 transition hover:text-cyan-300">
-                    Back to top <span aria-hidden="true">↑</span>
-                </a>
+    <!-- Footer section: copyright and quick links. -->
+    <footer class="border-t border-edge/10 px-6 py-8">
+        <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-xs text-faint sm:flex-row">
+            <p class="font-mono">&copy; {{ now()->year }} {{ $profile['name'] }} · built with Laravel</p>
+            <div class="flex items-center gap-5">
+                <a href="{{ $profile['github_url'] }}" target="_blank" rel="noopener noreferrer" class="transition hover:text-primary">GitHub</a>
+                <a href="mailto:{{ $profile['email'] }}" class="transition hover:text-primary">Email</a>
+                <a href="#home" class="transition hover:text-primary">Back to top ↑</a>
             </div>
         </div>
     </footer>
 
-    <aside class="welcome-mascot fixed bottom-4 right-4 z-40 flex max-w-[calc(100vw-2rem)] items-end gap-2 sm:bottom-6 sm:right-6 sm:gap-3" aria-label="Friendly robot welcome character">
-        <div id="welcome-message" class="mb-3 max-w-44 rounded-2xl rounded-br-sm border border-cyan-300/20 bg-[#10121a]/95 px-4 py-3 text-xs leading-5 text-gray-100 shadow-[0_12px_40px_rgba(0,0,0,.5),0_0_22px_rgba(34,211,238,.08)] backdrop-blur-md transition duration-300 sm:max-w-52 sm:px-5 sm:py-4 sm:text-sm">
-            <p class="font-semibold text-cyan-200">Beep boop, welcome!</p>
-            <p class="mt-1 text-gray-300">I’m your friendly robot guide. Take a look around!</p>
-        </div>
-        <button id="welcome-mascot-toggle" type="button" aria-controls="welcome-message" aria-expanded="true" aria-label="Hide welcome message" class="group relative flex h-[104px] w-[78px] shrink-0 items-end justify-center overflow-hidden rounded-t-[2rem] border border-cyan-300/20 bg-gradient-to-b from-[#101a2b]/90 to-[#090b12]/95 shadow-[0_0_28px_rgba(37,99,235,.16)] outline-none transition hover:-translate-y-1 hover:border-cyan-300/50 focus-visible:ring-2 focus-visible:ring-cyan-300 sm:h-[132px] sm:w-[96px]">
-            <svg aria-hidden="true" class="welcome-robot relative z-10 h-full w-full max-h-[126px] max-w-[94px]" viewBox="0 0 128 160" fill="none">
-                <defs>
-                    <linearGradient id="robot-metal" x1="25" y1="30" x2="100" y2="138" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#E5E7EB"></stop>
-                        <stop offset=".48" stop-color="#9299A3"></stop>
-                        <stop offset="1" stop-color="#555B65"></stop>
-                    </linearGradient>
-                    <linearGradient id="robot-panel" x1="34" y1="85" x2="94" y2="138" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#D1D5DB"></stop>
-                        <stop offset="1" stop-color="#777E88"></stop>
-                    </linearGradient>
-                    <linearGradient id="robot-red" x1="54" y1="3" x2="72" y2="22" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#FF7777"></stop>
-                        <stop offset="1" stop-color="#B91C1C"></stop>
-                    </linearGradient>
-                    <linearGradient id="robot-blue" x1="38" y1="101" x2="62" y2="130" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#22D3EE"></stop>
-                        <stop offset="1" stop-color="#0284C7"></stop>
-                    </linearGradient>
-                    <radialGradient id="robot-eye" cx="0" cy="0" r="1" gradientTransform="matrix(0 9 -9 0 55 48)" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#FFF7AE"></stop>
-                        <stop offset="1" stop-color="#FBBF24"></stop>
-                    </radialGradient>
-                </defs>
-
-                <g class="welcome-robot-body">
-                    <path d="M64 20v9" stroke="#AEB4BD" stroke-width="5" stroke-linecap="round"></path>
-                    <circle cx="64" cy="13" r="9" fill="url(#robot-red)" stroke="#17191E" stroke-width="3"></circle>
-                    <path d="M55 31c2-5 6-7 9-7s7 2 9 7" fill="#8B929C" stroke="#252830" stroke-width="2"></path>
-
-                    <path d="M26 44h8v20h-8zM94 44h8v20h-8z" fill="#626973" stroke="#202329" stroke-width="3"></path>
-                    <rect x="33" y="31" width="62" height="45" rx="4" fill="url(#robot-metal)" stroke="#17191E" stroke-width="3"></rect>
-                    <path d="M39 37h50v4H39z" fill="#F8FAFC" fill-opacity=".25"></path>
-                    <circle cx="52" cy="49" r="9" fill="#343941" stroke="#17191E" stroke-width="2"></circle>
-                    <circle cx="76" cy="49" r="9" fill="#343941" stroke="#17191E" stroke-width="2"></circle>
-                    <circle cx="52" cy="49" r="6.5" fill="url(#robot-eye)"></circle>
-                    <circle cx="76" cy="49" r="6.5" fill="url(#robot-eye)"></circle>
-                    <circle cx="50" cy="47" r="2" fill="white"></circle>
-                    <circle cx="74" cy="47" r="2" fill="white"></circle>
-                    <rect x="47" y="62" width="34" height="7" rx="1" fill="#17191E" stroke="#3D424A" stroke-width="2"></rect>
-
-                    <rect x="56" y="77" width="16" height="10" rx="4" fill="url(#robot-blue)" stroke="#111827" stroke-width="2"></rect>
-                    <path d="M29 89h70l9 39-17 10H37l-17-10 9-39Z" fill="url(#robot-panel)" stroke="#17191E" stroke-width="3"></path>
-                    <path d="M35 94h32v25H35z" fill="#075985" stroke="#242830" stroke-width="2"></path>
-                    <path d="M38 97h26v19H38z" fill="url(#robot-blue)"></path>
-                    <path d="M70 94h20v25H70z" fill="#FBBF24" stroke="#242830" stroke-width="2"></path>
-                    <path d="M74 97h12v19H74z" fill="#FDE68A"></path>
-                    <circle cx="94" cy="100" r="6" fill="url(#robot-red)" stroke="#17191E" stroke-width="2"></circle>
-                    <circle cx="94" cy="115" r="6" fill="url(#robot-eye)" stroke="#17191E" stroke-width="2"></circle>
-                    <circle cx="40" cy="125" r="3" fill="#06B6D4" stroke="#17212B"></circle>
-                    <circle cx="49" cy="125" r="3" fill="#06B6D4" stroke="#17212B"></circle>
-                    <circle cx="58" cy="125" r="3" fill="#06B6D4" stroke="#17212B"></circle>
-
-                    <path d="M43 138v9m14-9v9m14-9v9m14-9v9" stroke="#323740" stroke-width="2" stroke-linecap="round"></path>
-                    <path d="M45 138v12h-8v-12m46 0v12h8v-12" fill="url(#robot-metal)" stroke="#17191E" stroke-width="3" stroke-linejoin="round"></path>
-                    <path d="m37 149-4 7h22l-2-7-8-4-8 4Zm42 0-2 7h22l-4-7-8-4-8 4Z" fill="url(#robot-red)" stroke="#17191E" stroke-width="3" stroke-linejoin="round"></path>
-
-                    <path d="M28 94H12v14h16m72-14h16v14h-16" fill="url(#robot-metal)" stroke="#17191E" stroke-width="3" stroke-linejoin="round"></path>
-                    <path d="M10 108v8m0 0-5 5m5-5 5 5m103-13v8m0 0-5 5m5-5 5 5" stroke="#DC2626" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <circle cx="10" cy="108" r="4" fill="#EF4444" stroke="#17191E" stroke-width="2"></circle>
-                    <circle cx="118" cy="108" r="4" fill="#EF4444" stroke="#17191E" stroke-width="2"></circle>
-                </g>
-            </svg>
-        </button>
-    </aside>
-
-    <script>
-        // Toggle the mobile navigation menu and keep its accessibility state in sync.
-        const menuButton = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuButton.addEventListener('click', () => {
-            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-            menuButton.setAttribute('aria-expanded', String(!isExpanded));
-            mobileMenu.classList.toggle('hidden', isExpanded);
-        });
-
-        // Close the mobile menu after a visitor selects any menu link.
-        mobileMenu.querySelectorAll('a').forEach((link) => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                menuButton.setAttribute('aria-expanded', 'false');
-            });
-        });
-
-        const welcomeToggle = document.getElementById('welcome-mascot-toggle');
-        const welcomeMessage = document.getElementById('welcome-message');
-
-        // Show or hide the mascot's welcome message and update button accessibility text.
-        welcomeToggle.addEventListener('click', () => {
-            const isExpanded = welcomeToggle.getAttribute('aria-expanded') === 'true';
-            welcomeToggle.setAttribute('aria-expanded', String(!isExpanded));
-            welcomeToggle.setAttribute('aria-label', isExpanded ? 'Show welcome message' : 'Hide welcome message');
-            welcomeMessage.classList.toggle('welcome-message-hidden', isExpanded);
-        });
-    </script>
+    @include('partials.robot-assistant')
 </body>
 
 </html>
