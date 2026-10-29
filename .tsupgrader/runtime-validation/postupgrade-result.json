@@ -1,0 +1,99 @@
+{
+  "planHash": "b34df01821f225934b453a53f11d974e2d9865ae5335fb9756693cc36750b780",
+  "phase": "postupgrade",
+  "recordedAtUtc": "2026-10-17T14:04:23.4241247Z",
+  "retryCount": 0,
+  "resetBaseline": false,
+  "complete": true,
+  "result": {
+    "setupSucceeded": true,
+    "setupDurationMs": 0,
+    "setupFailureOutput": null,
+    "assertions": [
+      {
+        "name": "production-assets-build",
+        "kind": "process",
+        "verificationMethod": "exit-code",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "\r\n\u003E build\r\n\u003E vite build\r\n\r\n\u001B[36mvite v8.3.4 \u001B[32mbuilding client environment for production...\u001B[36m\u001B[39m\r\n\u001B[33m[plugin laravel:fonts] Optimized font fallbacks require the optional \u0022fontaine\u0022 package. Install it, or set \u0022optimizedFallbacks: false\u0022 on your fonts to disable the feature.\u001B[39m\r\ntransforming...\r\n\u2713 3 modules transformed.\r\nrendering chunks...\r\ncomputing gzip size...\r\npublic/build/manifest.json                                      1.47 kB \u2502 gzip: 0.33 kB\r\npublic/build/fonts-manifest.json                                5.74 kB \u2502 gzip: 0.71 kB\r\npublic/build/assets/instrument-sans-400-normal-DRC__1Mx.woff2  16.86 kB\r\npublic/build/assets/instrument-sans-500-normal-Dk9ku72i.woff2  17.23 kB\r\npublic/build/assets/instrument-sans-600-normal-B7fBEWYG.woff2  17.40 kB\r\npublic/build/assets/instrument-sans-400-normal-D1W7dsQl.woff   21.24 kB\r\npublic/build/assets/instrument-sans-500-normal-Z6ESRlEs.woff   21.65 kB\r\npublic/build/assets/instrument-sans-600-normal-B9e8oLYv.woff   21.67 kB\r\npublic/build/assets/fonts-C9MNnjVw.css                          2.35 kB \u2502 gzip: 0.38 kB\r\npublic/build/assets/app-DsCeqq-q.css                           34.46 kB \u2502 gzip: 6.84 kB\r\npublic/build/assets/app-BvRk9kiK.js                             0.00 kB \u2502 gzip: 0.02 kB\r\n\r\n\u001B[32m\u2713 built in 1.67s\u001B[39m\r\n",
+        "durationMs": 3503
+      },
+      {
+        "name": "home-route-responds",
+        "kind": "http-probe",
+        "verificationMethod": "http-status",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": null,
+        "outputSample": "HTTP 200\n\u003C!DOCTYPE html\u003E\n\u003Chtml lang=\u0022en\u0022\u003E\n\u003Chead\u003E\n    \u003Cmeta charset=\u0022UTF-8\u0022\u003E\n    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1.0\u0022\u003E\n    \u003Cmeta http-equiv=\u0022X-UA-Compatible\u0022 content=\u0022ie=edge\u0022\u003E\n    \u003Ctitle\u003EHome\u003C/title\u003E\n\u003Cscript id=\u0022browser-logger-active\u0022\u003E\n(function() {\n    const ENDPOINT = \u0027http://127.0.0.1:8000/_boost/browser-logs\u0027;\n    const logQueue = [];\n    let flushTimeout = null;\n    const captureTypes = [\u0022error\u0022,\u0022warning\u0022,\u0022info\u0022,\u0022log\u0022,\u0022debug\u0022,\u0022table\u0022];\n\n    console.log(\u0027\uD83D\uDD0D Browser logger active (MCP server detected). Posting to: \u0027 \u002B ENDPOINT);\n\n    // Store original console methods\n    const originalConsole = {\n        log: console.log,\n        debug: console.debug,\n        info: console.info,\n        error: console.error,\n        warn: console.warn,\n        table: console.table\n    };\n\n    // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire\u0027s \u0060$wire\u0060) and fire a real request.\n    function toSafeValue(value, seen) {\n        if (value === null || typeof value !== \u0027object\u0027) {\n            return value;\n        }\n        if (value instanceof Error) {\n            return { name: value.name, message: value.message, stack: value.stack };\n        }\n        // Date has no own enumerable keys, so the walk below would collapse it to {}.\n        if (value instanceof Date) {\n            return value.toISOString();\n        }\n        if (seen.has(value)) {\n            return \u0027[Circular]\u0027;\n        }\n        seen.add(value);\n        if (Array.isArray(value)) {\n            return value.map((item) =\u003E toSafeValue(item, seen));\n        }\n        const plain = {};\n        for (const key of Object.keys(value)) {\n            if (key === \u0027toJSON\u0027) continue;\n            try {\n                plain[key] = toSafeValue(value[key], seen);\n            } catch (e) {\n                plain[key] = \u0027[Unreadable]\u0027;\n            }\n        }\n        return plain;\n    }\n\n    // Helper to safely stringify values\n    function safeStringify(obj) {\n        return JSON.stringify(toSafeValue(obj, new WeakSet()));\n    }\n\n    // Normalize log type for consistency (e.g., \u0027warn\u0027 to \u0027warning\u0027)\n    function normalizeType(type) {\n        return type === \u0027warn\u0027 ? \u0027warning\u0027 : type;\n    }\n\n    // Determine if a log type should be captured based on configured levels\n    function shouldCapture(type) {\n        return captureTypes.includes(normalizeType(type));\n    }\n\n    // Batch and send logs\n    function flushLogs() {\n        if (logQueue.length === 0) return;\n\n        const batch = logQueue.splice(0, logQueue.length);\n\n        fetch(ENDPOINT, {\n            method: \u0027POST\u0027,\n            headers: {\n                \u0027Content-Type\u0027: \u0027application/json\u0027,\n                \u0027X-Requested-With\u0027: \u0027XMLHttpRequest\u0027\n            },\n            body: JSON.stringify({ logs: batch })\n        }).catch(err =\u003E {\n            // Silently fail to avoid infinite loops\n            originalConsole.error(\u0027Failed to send logs:\u0027, err);\n        });\n    }\n\n    // Debounced flush (100ms)\n    function scheduleFlush() {\n        if (flushTimeout) clearTimeout(flushTimeout);\n        flushTimeout = setTimeout(flushLogs, 100);\n    }\n\n    // Intercept console methods\n    [\u0027log\u0027, \u0027debug\u0027, \u0027info\u0027, \u0027error\u0027, \u0027warn\u0027, \u0027table\u0027].forEach(method =\u003E {\n        console[method] = function(...args) {\n            // Call original method\n            originalConsole[method].apply(console, args);\n\n            // Capture log data\n            try {\n                if (!shouldCapture(method)) {\n                    return;\n                }\n\n                logQueue.push({\n                    type: method,\n                    timestamp: new Date().toISOString(),\n                    data: args.map(arg =\u003E {\n                        try {\n                            return typeof arg === \u0027object\u0027 ? JSON.parse(safeStringify(arg)) : arg;\n                        } catch (e) {\n                            return String(arg);\n                        }\n                    }),\n                    url: window.location.href,\n                    userAgent: navigator.userAgent\n               \n\u2026[truncated]",
+        "durationMs": 732
+      },
+      {
+        "name": "tests-pass",
+        "kind": "process",
+        "verificationMethod": "test-results",
+        "passed": true,
+        "timedOut": false,
+        "skipped": false,
+        "skippedReason": null,
+        "exitCode": 0,
+        "outputSample": "\r\n INFO Configuration cache cleared successfully. \r\n\r\n{\u0022tool\u0022:\u0022phpunit\u0022,\u0022result\u0022:\u0022passed\u0022,\u0022tests\u0022:2,\u0022passed\u0022:2,\u0022assertions\u0022:2,\u0022duration_ms\u0022:510}\r\n",
+        "durationMs": 5666,
+        "testResults": {
+          "testFramework": "unknown",
+          "runnerDetectedFrom": "none",
+          "testsTotal": 0,
+          "testsPassed": 0,
+          "testsFailed": 0,
+          "testsSkipped": 0,
+          "parseFailed": true
+        }
+      }
+    ],
+    "executions": [
+      {
+        "source": "production-assets-build",
+        "resolvedExecutable": "C:\\Program Files\\nodejs\\npm.CMD",
+        "args": [
+          "run",
+          "build"
+        ],
+        "cwd": "C:\\laragon\\www\\Profile",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "home-route-responds",
+        "resolvedExecutable": "C:\\laragon\\bin\\php\\php-8.3.26-Win32-vs16-x64\\php.EXE",
+        "args": [
+          "artisan",
+          "serve",
+          "--host=127.0.0.1",
+          "--port=8000"
+        ],
+        "cwd": "C:\\laragon\\www\\Profile",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      },
+      {
+        "source": "tests-pass",
+        "resolvedExecutable": "C:\\ProgramData\\ComposerSetup\\bin\\composer.BAT",
+        "args": [
+          "test"
+        ],
+        "cwd": "C:\\laragon\\www\\Profile",
+        "env": {},
+        "prependPath": [],
+        "platform": "win32"
+      }
+    ]
+  }
+}
